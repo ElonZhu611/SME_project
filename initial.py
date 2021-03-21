@@ -122,4 +122,5 @@ def initialise():
     MainWindow.show()
     sys.exit(app.exec_())
 
-initialise()
+if __name__ == "__main__":
+    initialise()
