@@ -7,6 +7,20 @@ def connect_info():
     password_ = "nbsbest"
     return host_, user_, password_
 
+def get_table():
+    mydb = mysql.connector.connect(
+    	host = connect_info()[0],
+    	user = connect_info()[1],
+    	password = connect_info()[2]
+    )
+    mycursor = mydb.cursor(dictionary=True)
+	# get all tables
+    mycursor.execute("SELECT table_name FROM information_schema.tables WHERE table_schema = 'new_schema'")
+    tables = mycursor.fetchall()
+    df_tables = pd.DataFrame(tables).TABLE_NAME
+#    print(df_tables[0])
+    return df_tables
+
 def get_all():
 	mydb = mysql.connector.connect(
 		host = connect_info()[0],
@@ -20,7 +34,7 @@ def get_all():
 	df_all = pd.DataFrame(data)
 	return df_all
 
-def get_filters(filters_clause, aggFunc, aggCol, start_date, end_date, groupCol):
+def get_filters(filters_clause, filters_count, aggFunc, aggCol, start_date, end_date, groupCol):
     mydb = mysql.connector.connect(
 		host = connect_info()[0],
 		user = connect_info()[1],
