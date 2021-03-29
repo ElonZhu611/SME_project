@@ -19,6 +19,7 @@ def initialise():
         ui.table_combo1.addItem(table)
 
     # set table2 combo
+    ui.table_combo2.addItem("None")
     for table in df_tables:
         ui.table_combo2.addItem(table)
 
@@ -59,6 +60,12 @@ def initialise():
     ui.agg_func_combo.addItem("AVG")
     ui.agg_func_combo.addItem("MAX")
     ui.agg_func_combo.addItem("MIN")
+
+    def add_tables(self):
+        table1 = self.table_combo1.currentText()
+        table2 = self.table_combo2.currentText()
+        if table2 == "None":
+            self.table_list.addItem(table1)
 
     def generates(self):
         table_list = data_query.get_table()
@@ -116,6 +123,8 @@ def initialise():
         with open('record.json', 'w') as json_file:
             json.dump(record_dict, json_file)
 
+
+    ui.add_table = add_tables.__get__(ui)
     ui.generate = generates.__get__(ui)
     ui.add_filter = add_filters.__get__(ui)
     ui.clear_filter = clear_filters.__get__(ui)
@@ -123,9 +132,11 @@ def initialise():
     ui.export = exports.__get__(ui)
     ui.record = records.__get__(ui)
 
+    # add_table button
+    ui.table_add.clicked.connect(ui.add_table)
     # generate button
     ui.generate_button.clicked.connect(ui.generate)
-    # add button
+    # add_filter button
     ui.add_button.clicked.connect(ui.add_filter)
     # clear button
     ui.clear_button.clicked.connect(ui.clear_filter)
